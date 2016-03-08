@@ -1,0 +1,9 @@
+c:\users\sam\documents\visual studio 2015\Projects\SamagotchiServer\SamagotchiServer\bin\Debug\SamagotchiServer.exe.config
+c:\users\sam\documents\visual studio 2015\Projects\SamagotchiServer\SamagotchiServer\bin\Debug\SamagotchiServer.exe
+c:\users\sam\documents\visual studio 2015\Projects\SamagotchiServer\SamagotchiServer\bin\Debug\SamagotchiServer.pdb
+c:\users\sam\documents\visual studio 2015\Projects\SamagotchiServer\SamagotchiServer\obj\Debug\SamagotchiServer.csprojResolveAssemblyReference.cache
+c:\users\sam\documents\visual studio 2015\Projects\SamagotchiServer\SamagotchiServer\obj\Debug\SamagotchiServer.exe
+c:\users\sam\documents\visual studio 2015\Projects\SamagotchiServer\SamagotchiServer\obj\Debug\SamagotchiServer.pdb
+C:\Users\Sam\Source\Repos\SamagotchiServer\SamagotchiServer\bin\Debug\SamagotchiServer.exe.config
+C:\Users\Sam\Source\Repos\SamagotchiServer\SamagotchiServer\obj\Debug\SamagotchiServer.exe
+C:\Users\Sam\Source\Repos\SamagotchiServer\SamagotchiServer\obj\Debug\SamagotchiServer.pdb
