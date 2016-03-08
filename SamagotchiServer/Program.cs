@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +10,7 @@ namespace SamagotchiServer
 {
     public class SamagotchiServer
     {
+        private const int ConnetionTimeout = 60;
         private const int Port = 13000;
         private const string ServerAddress = "127.0.0.1";
 
@@ -43,10 +42,9 @@ namespace SamagotchiServer
 
         private static void CheckConnetions()
         {
-            var dateTime = DateTime.Now;
             while (_isRunning)
             {
-                foreach (var client in _clientPool.Where(client => client.DateTime.AddSeconds(5) < dateTime))
+                foreach (var client in _clientPool.Where(client => client.DateTime.AddSeconds(ConnetionTimeout) < DateTime.Now))
                 {
                     try
                     {
@@ -67,7 +65,6 @@ namespace SamagotchiServer
                         _clientPool.RemoveAt(i);
 
                 Thread.Sleep(1000);
-                dateTime = DateTime.Now;
             }
         }
 
@@ -106,46 +103,18 @@ namespace SamagotchiServer
 
         private static void KillClients()
         {
-            
-        }
-    }
-
-    public class Client
-    {
-        public Guid Id { get; set; }
-        public DateTime DateTime { get; set; }
-        public TcpClient TcpClient { get; set; }
-        public Thread Thread { get; set; }
-
-        public void StartThread()
-        {
-            Id = Guid.NewGuid();
-            DateTime = DateTime.Now;
-            Thread = new Thread(HandleClient);
-            Thread.Start();
-        }
-
-        private void HandleClient()
-        {
-            var streamReader = new StreamReader(TcpClient.GetStream(), Encoding.ASCII);
-
-            while (TcpClient.Connected)
-            {
-                try
+            for (var i = 0; i < _clientPool.Count; i++)
+                if (_clientPool[i].TcpClient.Connected == false)
                 {
-                    var line = streamReader.ReadLine();
-                    DateTime = DateTime.Now;
-                    Console.WriteLine("Client > " + line);
-
-                    if (line == "EndConnection")
-                        TcpClient.Close();
+                    var client = _clientPool[i];
+                    client.TcpClient.GetStream().Close();
+                    client.TcpClient.Close();
+                    client.Thread.Abort();
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine($"Killed {client.Id} connection. Connected {client.TcpClient.Connected}");
+                    Console.ResetColor();
+                    _clientPool.RemoveAt(i);
                 }
-                catch (Exception)
-                {
-                    TcpClient.Close();
-                }
-            }
-            Console.WriteLine($"Client > {Id} Closed Connection");
         }
     }
 }
